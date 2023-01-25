@@ -5,8 +5,7 @@
       Use deep in parent CSS to restrict the scope of the CSS selector to the child component.
 
       Methods packaged with the module:
-      setPackage(element on which package should rest, id for the package)
-      animatePackage(target element, package id of the package to animate)
+      animatePackage(target element, package id of the package to animate, source element id)
       drawLine(source element id, target element id)
   -->
   <div id="margin-container">
@@ -54,33 +53,49 @@ export default {
       line.setAttribute("style", "stroke:rgb(0,0,0);stroke-width:1");
       svg.appendChild(line);
     },
-    animatePackage(target, packageID) {
-      let element = document.getElementById(target);
-      let packageDOM = document.getElementById(packageID);
+    animatePackageNew(target, packageID, currentElementID){
+      let packageDOM = document.getElementById(packageID); //The package to animate
+      let element = document.getElementById(target); //The target element
+      let currentElement = document.getElementById(currentElementID); //the current element
+      let overlay = document.getElementById('overlay'); //overlay, to remount the package to the overlay
 
-      let currentPackageID = this.elementMap[packageID];
-      let currentElement = document.getElementById(currentPackageID);
+      console.log(packageDOM.offsetWidth, packageDOM.offsetHeight)
+
+      let packageWidth = packageDOM.offsetWidth / 2
+      let packageHeight = packageDOM.offsetHeight / 2
+
+      //detaching from current element and moving to overlay
+      let xT = currentElement.offsetLeft + (currentElement.offsetWidth);
+      let yT = currentElement.offsetTop + (currentElement.offsetHeight);
+      packageDOM.style.left = xT + 'px';
+      packageDOM.style.top = yT + 'px';
+      packageDOM.remove()
+      overlay.appendChild(packageDOM);
+
+      packageDOM.style.left = xT + 'px';
+      packageDOM.style.top = yT + 'px';
+
+      console.log(packageDOM.style.width, packageDOM.style.height)
 
       //setting element to center of current element
-      let x1T = currentElement.offsetLeft + (currentElement.offsetWidth / 2) - (packageDOM.offsetWidth / 2);
-      let y1T = currentElement.offsetTop + (currentElement.offsetHeight / 2) - (packageDOM.offsetHeight / 2);
+      let x1T = currentElement.offsetLeft + (currentElement.offsetWidth / 2) - packageWidth
+      let y1T = currentElement.offsetTop + (currentElement.offsetHeight / 2) - packageHeight
 
       packageDOM.style.left = x1T + 'px';
       packageDOM.style.top = y1T + 'px';
 
-      //wait for 3 seconds
       setTimeout(() => {
         //setting element to center of target element
-        let x1E = element.offsetLeft + (element.offsetWidth / 2) - (packageDOM.offsetWidth / 2);
-        let y1E = element.offsetTop + (element.offsetHeight / 2) - (packageDOM.offsetHeight / 2);
+        let x1E = element.offsetLeft + (element.offsetWidth / 2) - packageWidth;
+        let y1E = element.offsetTop + (element.offsetHeight / 2) - packageHeight;
 
         packageDOM.style.left = x1E + 'px';
         packageDOM.style.top = y1E + 'px';
 
         setTimeout(() => {
           //setting element to center of target element
-          let x1E = element.offsetLeft + (element.offsetWidth) - 10;
-          let y1E = element.offsetTop + (element.offsetHeight) - 10;
+          let x1E = element.offsetLeft + (element.offsetWidth);
+          let y1E = element.offsetTop + (element.offsetHeight);
 
           packageDOM.style.left = x1E + 'px';
           packageDOM.style.top = y1E + 'px';
@@ -98,38 +113,6 @@ export default {
       let y2 = elementB.offsetTop + (elementB.offsetHeight / 2);
 
       this.drawSVGLine(x1, y1, x2, y2);
-    },
-    setPackage(id, packageID) {
-      let elements = document.getElementById(id);
-      let target = document.getElementById('overlay');
-
-      this.elementMap[packageID] = id;
-
-      let xT = elements.offsetLeft + (elements.offsetWidth) - 10;
-      let yT = elements.offsetTop + (elements.offsetHeight) - 10;
-
-      let newDiv = document.createElement('div');
-      newDiv.id = packageID;
-      newDiv.innerText = "Package";
-
-      //set position of new div
-      //TODO: Change package CSS
-
-      newDiv.style.left = xT.toString() + "px";
-      newDiv.style.top = yT.toString() + "px";
-      newDiv.style.backgroundColor = "yellow";
-      newDiv.style.color = "black"
-      newDiv.style.width = "min-content";
-      newDiv.style.padding = "10px";
-      newDiv.style.borderRadius = "10px";
-      newDiv.style.position = 'absolute';
-      newDiv.style.fontSize = "10px";
-      newDiv.style.transition = "left 1s ease-out, top 1s ease-out";
-      newDiv.style.zIndex = "100";
-
-      console.log(newDiv.style.left, newDiv.style.top, "new div")
-
-      target.appendChild(newDiv);
     },
   }
 }
