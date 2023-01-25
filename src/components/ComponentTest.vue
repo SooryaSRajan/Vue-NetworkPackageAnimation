@@ -1,6 +1,6 @@
 <template>
   <div :class="Class" :id="Id">
-    This is a component
+    <h1>Some Computer</h1>
   </div>
 </template>
 
@@ -23,8 +23,6 @@ div {
   background-color: #2c3e50;
   padding: 10px;
   border-radius: 10px;
-  top: 10%;
-  left: 30%;
 }
 
 </style>

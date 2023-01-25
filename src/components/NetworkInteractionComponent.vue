@@ -1,10 +1,14 @@
-
 <template>
-<!--
-    Note:
-    :deep(.box:nth-child(6))
-    Use deep in parent CSS to restrict the scope of the CSS selector to the child component.
--->
+  <!--
+      Note:
+      :deep(.box:nth-child(6))
+      Use deep in parent CSS to restrict the scope of the CSS selector to the child component.
+
+      Methods packaged with the module:
+      setPackage(element on which package should rest, id for the package)
+      animatePackage(target element, package id of the package to animate)
+      drawLine(source element id, target element id)
+  -->
   <div id="margin-container">
     <div id="root">
       <svg id="lineCanvas">
@@ -22,7 +26,9 @@
 export default {
   name: "NetworkInteractionComponent",
   data() {
-    return {}
+    return {
+      elementMap: {}
+    }
   },
   mounted() {
     let marginContainer = document.getElementById("margin-container").getBoundingClientRect();
@@ -48,27 +54,39 @@ export default {
       line.setAttribute("style", "stroke:rgb(0,0,0);stroke-width:1");
       svg.appendChild(line);
     },
-    animatePackage(target) {
-      //TODO: Make target orientation dynamic
-      if (target < 0 || target > 5) {
-        return;
-      }
-
+    animatePackage(target, packageID) {
       let element = document.getElementById(target);
-      let packageDOM = document.getElementById('package');
+      let packageDOM = document.getElementById(packageID);
 
-      let xT = element.offsetLeft + 50;
-      let yT = element.offsetTop + 50;
+      let currentPackageID = this.elementMap[packageID];
+      let currentElement = document.getElementById(currentPackageID);
 
-      let xE = packageDOM.offsetLeft;
-      let yE = packageDOM.offsetTop;
+      //setting element to center of current element
+      let x1T = currentElement.offsetLeft + (currentElement.offsetWidth / 2) - (packageDOM.offsetWidth / 2);
+      let y1T = currentElement.offsetTop + (currentElement.offsetHeight / 2) - (packageDOM.offsetHeight / 2);
 
-      packageDOM.style.left = xE + 'px';
-      packageDOM.style.top = yE + 'px';
+      packageDOM.style.left = x1T + 'px';
+      packageDOM.style.top = y1T + 'px';
 
-      packageDOM.style.left = xT + 'px';
-      packageDOM.style.top = yT + 'px';
+      //wait for 3 seconds
+      setTimeout(() => {
+        //setting element to center of target element
+        let x1E = element.offsetLeft + (element.offsetWidth / 2) - (packageDOM.offsetWidth / 2);
+        let y1E = element.offsetTop + (element.offsetHeight / 2) - (packageDOM.offsetHeight / 2);
 
+        packageDOM.style.left = x1E + 'px';
+        packageDOM.style.top = y1E + 'px';
+
+        setTimeout(() => {
+          //setting element to center of target element
+          let x1E = element.offsetLeft + (element.offsetWidth) - 10;
+          let y1E = element.offsetTop + (element.offsetHeight) - 10;
+
+          packageDOM.style.left = x1E + 'px';
+          packageDOM.style.top = y1E + 'px';
+        }, 2000);
+
+      }, 2000);
     },
     drawLine(id1, id2) {
       let elementA = document.getElementById(id1);
@@ -81,67 +99,30 @@ export default {
 
       this.drawSVGLine(x1, y1, x2, y2);
     },
-    setPackage(id, position) {
+    setPackage(id, packageID) {
       let elements = document.getElementById(id);
       let target = document.getElementById('overlay');
 
-      //TODO: get the coordinates of the element and the size and place package in left, top, right, bottom as needed
+      this.elementMap[packageID] = id;
 
-      let xT = elements.offsetLeft
-      let yT = elements.offsetTop
+      let xT = elements.offsetLeft + (elements.offsetWidth) - 10;
+      let yT = elements.offsetTop + (elements.offsetHeight) - 10;
 
-      //TODO: Change math behind logic, does not work right
-
-      if (position === "TL") {
-        //top left of the element target, get target dimensions, TL - top left, so + 1/2 of height of element and - 1/2 of width of element
-        xT = xT - (elements.offsetWidth / 2)
-        yT = yT - (elements.offsetHeight / 2)
-      } else if (position === "TR") {
-        //top right of the element target, get target dimensions, TR - top right, so + 1/2 of height of element and + 1/2 of width of element
-        xT = xT + (elements.offsetWidth / 2)
-        yT = yT - (elements.offsetHeight / 2)
-      } else if (position === "BL") {
-        //bottom left of the element target, get target dimensions, BL - bottom left, so - 1/2 of height of element and - 1/2 of width of element
-        xT = xT - (elements.offsetWidth / 2)
-        yT = yT + (elements.offsetHeight / 2)
-      } else if (position === "BR") {
-        //bottom right of the element target, get target dimensions, BR - bottom right, so - 1/2 of height of element and + 1/2 of width of element
-        xT = xT + (elements.offsetWidth / 2)
-        yT = yT + (elements.offsetHeight / 2)
-      } else if (position === "T") {
-        //top of the element target, get target dimensions, T - top, so + 1/2 of height of element
-        yT = yT - (elements.offsetHeight / 2)
-      } else if (position === "B") {
-        //bottom of the element target, get target dimensions, B - bottom, so - 1/2 of height of element
-        yT = yT + (elements.offsetHeight / 2)
-      } else if (position === "L") {
-        //left of the element target, get target dimensions, L - left, so - 1/2 of width of element
-        xT = xT - (elements.offsetWidth / 2)
-      } else if (position === "R") {
-        //right of the element target, get target dimensions, R - right, so + 1/2 of width of element
-        xT = xT + (elements.offsetWidth / 2)
-      }
-
-      console.log(xT, yT, "coords")
-
-      //create new div
       let newDiv = document.createElement('div');
-      //TODO: Make package ID dynamic
-      newDiv.id = 'package';
+      newDiv.id = packageID;
       newDiv.innerText = "Package";
 
       //set position of new div
-
       //TODO: Change package CSS
 
-      newDiv.style.left = xT + 'px';
-      newDiv.style.top = yT + 'px';
+      newDiv.style.left = xT.toString() + "px";
+      newDiv.style.top = yT.toString() + "px";
       newDiv.style.backgroundColor = "yellow";
       newDiv.style.color = "black"
       newDiv.style.width = "min-content";
       newDiv.style.padding = "10px";
       newDiv.style.borderRadius = "10px";
-      newDiv.style.position = 'relative';
+      newDiv.style.position = 'absolute';
       newDiv.style.fontSize = "10px";
       newDiv.style.transition = "left 1s ease-out, top 1s ease-out";
       newDiv.style.zIndex = "100";
@@ -173,6 +154,7 @@ export default {
   box-shadow: 2px 3px 10px 2px #D7DFFF;
   text-align: center;
   position: relative;
+  overflow: scroll;
 }
 
 #lineCanvas {
