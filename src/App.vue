@@ -36,7 +36,7 @@
       </EndSystemComponent>
     </NetworkInteractionComponent>
     <button @click="animate()">Start animation</button>
-    <PackageComponent :data="data"></PackageComponent>
+    <PackageComponent :data="[]"></PackageComponent>
     <input v-model="input">
   </main>
 </template>

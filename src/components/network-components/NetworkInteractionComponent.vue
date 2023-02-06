@@ -86,8 +86,6 @@ export default {
 
       //first async wait for the animation to reach the center of the target element
       let centerAnimationEnd = async () => {
-        console.log(packageDOM.offsetLeft, x1T, "called", packageDOM.offsetTop, y1T, "waiting to reach destination")
-
         //round off x1T and y1T to avoid floating point errors
         x1T = Math.round(x1T)
         y1T = Math.round(y1T)
@@ -172,8 +170,6 @@ export default {
         }
 
       }
-
-      console.log(packagesInTargetNearBox)
 
       //arrange the packages in the target box
       //reset the packages to their original position and then add + 50 * index to the top and left
