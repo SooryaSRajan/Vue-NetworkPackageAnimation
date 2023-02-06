@@ -69,8 +69,6 @@ export default {
       //detaching from current element and moving to overlay
       let xT = currentElement.offsetLeft + (currentElement.offsetWidth);
       let yT = currentElement.offsetTop + (currentElement.offsetHeight);
-      packageDOM.style.left = xT + 'px';
-      packageDOM.style.top = yT + 'px';
       packageDOM.remove()
       overlay.appendChild(packageDOM);
 

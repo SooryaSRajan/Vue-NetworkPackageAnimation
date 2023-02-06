@@ -19,23 +19,24 @@
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box4" top="80%" left="10%">
+      <EndSystemComponent class="box" id="box4" top="80%" left="10%" package-id="package4" :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input, input]">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box5" top="80%" left="45%">
+      <EndSystemComponent class="box" id="box5" top="80%" left="45%" package-id="package5" :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input, input]">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box6" top="80%" left="80%">
+      <EndSystemComponent class="box" id="box6" top="80%" left="80%" package-id="package6" :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input, input]">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
     </NetworkInteractionComponent>
     <button @click="animate()">Start animation</button>
+    <button @click="animateBack()">Start animation</button>
     <PackageComponent :data="[]"></PackageComponent>
     <input v-model="input">
   </main>
@@ -58,6 +59,17 @@ export default {
       this.$refs.childComponentRef.animatePackageNew("box5", "package1", "box1")
       this.$refs.childComponentRef.animatePackageNew("box5", "package2", "box2")
       this.$refs.childComponentRef.animatePackageNew("box5", "package3", "box3")
+      this.$refs.childComponentRef.animatePackageNew("box2", "package4", "box4")
+      this.$refs.childComponentRef.animatePackageNew("box2", "package5", "box5")
+      this.$refs.childComponentRef.animatePackageNew("box2", "package6", "box6")
+    },
+    animateBack() {
+      this.$refs.childComponentRef.animatePackageNew("box1", "package1", "box5")
+      this.$refs.childComponentRef.animatePackageNew("box2", "package2", "box5")
+      this.$refs.childComponentRef.animatePackageNew("box3", "package3", "box5")
+      this.$refs.childComponentRef.animatePackageNew("box4", "package4", "box2")
+      this.$refs.childComponentRef.animatePackageNew("box5", "package5", "box2")
+      this.$refs.childComponentRef.animatePackageNew("box6", "package6", "box2")
     },
     onAnimationEnd(id) {
       console.log("Animation ended for id: " + id)
@@ -69,8 +81,10 @@ export default {
 
       if (this.packageOneReached && this.packageTwoReached) {
         console.log("Both packages reached their destination")
-        this.$refs.childComponentRef.arrangePackages("box5")
+
       }
+      this.$refs.childComponentRef.arrangePackages("box5")
+      this.$refs.childComponentRef.arrangePackages("box2")
     }
   },
   data() {
