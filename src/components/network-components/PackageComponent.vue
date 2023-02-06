@@ -1,5 +1,5 @@
 <template>
-  <div :id="id">
+  <div>
     <div id="packageBox">
       <div v-for="(item, index) in data" :key="item.id">
         <div class="packageText">{{ item }}</div>
@@ -20,9 +20,6 @@ export default {
   props: {
     data: {
       type: Array
-    },
-    id: {
-      type: String
     }
   },
 }

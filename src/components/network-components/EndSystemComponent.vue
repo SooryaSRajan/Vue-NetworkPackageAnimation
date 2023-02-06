@@ -4,7 +4,7 @@
       <slot></slot>
     </div>
     <!--set package ID here so it can be used later -->
-    <div v-if="isPackageSet && displayPackage" style="position: absolute; right: -88px; " :style="animationDuration" :id="packageId">
+    <div v-if="isPackageSet && displayPackage" style="position: absolute; right: -88px; " :style="animationDuration" :id="packageId" class="package">
       <PackageComponent :data="data"></PackageComponent>
     </div>
   </div>

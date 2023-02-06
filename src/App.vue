@@ -1,7 +1,7 @@
 <template>
   <main id="main">
 
-    <NetworkInteractionComponent ref="childComponentRef">
+    <NetworkInteractionComponent ref="childComponentRef" :on-package-animation-end="onAnimationEnd">
       <EndSystemComponent class="box" id="box1" package-id="package1" top="10%" left="10%"
                           :data="['SYN SYN SYN SYN', 'ACK (ack data)', input]">
         <h1>
@@ -14,7 +14,7 @@
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box3" top="10%" left="80%">
+      <EndSystemComponent class="box" id="box3" top="10%" left="80%" package-id="package3" :data="['SYN SYN SYN SYN', 'ACK (ack data)']">
         <h1>
           Hey there
         </h1>
@@ -52,18 +52,32 @@ export default {
     this.$refs.childComponentRef.drawLine("box1", "box6")
     this.$refs.childComponentRef.drawLine("box3", "box4")
     this.$refs.childComponentRef.drawLine("box2", "box5")
-
   },
   methods: {
     animate() {
-      this.$refs.childComponentRef.animatePackageNew("box6", "package1", "box1")
+      this.$refs.childComponentRef.animatePackageNew("box5", "package1", "box1")
       this.$refs.childComponentRef.animatePackageNew("box5", "package2", "box2")
+      this.$refs.childComponentRef.animatePackageNew("box5", "package3", "box3")
+    },
+    onAnimationEnd(id) {
+      console.log("Animation ended for id: " + id)
+      if (id === "package1") {
+        this.packageOneReached = true;
+      } else if (id === "package2") {
+        this.packageTwoReached = true;
+      }
+
+      if (this.packageOneReached && this.packageTwoReached) {
+        console.log("Both packages reached their destination")
+        this.$refs.childComponentRef.arrangePackages("box5")
+      }
     }
   },
   data() {
     return {
-      input: "test"
-
+      input: "test",
+      packageOneReached: false,
+      packageTwoReached: false,
     }
   },
   components: {PackageComponent, EndSystemComponent, NetworkInteractionComponent},

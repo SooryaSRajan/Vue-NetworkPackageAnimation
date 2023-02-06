@@ -24,6 +24,15 @@
 
 export default {
   name: "NetworkInteractionComponent",
+  //get a function with parameter string as a prop
+  props: {
+    onPackageAnimationEnd: {
+      type: Function,
+    },
+    onPackageReachDestination: {
+      type: Function,
+    },
+  },
   mounted() {
     let marginContainer = document.getElementById("margin-container").getBoundingClientRect();
 
@@ -54,7 +63,6 @@ export default {
       let currentElement = document.getElementById(currentElementID); //the current element
       let overlay = document.getElementById('overlay'); //overlay, to remount the package to the overlay
 
-
       let packageWidth = 40
       let packageHeight = packageDOM.offsetHeight / 2
 
@@ -76,24 +84,114 @@ export default {
       packageDOM.style.left = x1T + 'px';
       packageDOM.style.top = y1T + 'px';
 
-      setTimeout(() => {
-        //setting element to center of target element
-        let x1E = element.offsetLeft + (element.offsetWidth / 2) - packageWidth;
-        let y1E = element.offsetTop + (element.offsetHeight / 2) - packageHeight;
+      //first async wait for the animation to reach the center of the target element
+      let centerAnimationEnd = async () => {
+        console.log(packageDOM.offsetLeft, x1T, "called", packageDOM.offsetTop, y1T, "waiting to reach destination")
 
-        packageDOM.style.left = x1E + 'px';
-        packageDOM.style.top = y1E + 'px';
+        //round off x1T and y1T to avoid floating point errors
+        x1T = Math.round(x1T)
+        y1T = Math.round(y1T)
 
-        setTimeout(() => {
+        //check if the package is at the target element
+        if (packageDOM.offsetLeft === x1T && packageDOM.offsetTop === y1T) {
           //setting element to center of target element
-          let x1E = element.offsetLeft + (element.offsetWidth);
-          let y1E = element.offsetTop + (element.offsetHeight);
+          let x1E = element.offsetLeft + (element.offsetWidth / 2) - packageWidth;
+          let y1E = element.offsetTop + (element.offsetHeight / 2) - packageHeight;
 
           packageDOM.style.left = x1E + 'px';
           packageDOM.style.top = y1E + 'px';
-        }, 2000);
 
-      }, 2000);
+          //second async wait for the animation to reach the target element
+          let packageMovementAnimationEnd = async () => {
+
+            //check if the package is at the target element
+            //round off x1E and y1E to avoid floating point errors
+            x1E = Math.round(x1E)
+            y1E = Math.round(y1E)
+            if (packageDOM.offsetLeft === x1E && packageDOM.offsetTop === y1E) {
+
+              let x1E = element.offsetLeft + (element.offsetWidth);
+              let y1E = element.offsetTop + (element.offsetHeight);
+
+              //setting element to center of target element
+              packageDOM.style.left = x1E + 'px';
+              packageDOM.style.top = y1E + 'px';
+
+              //check if the package is at the target element
+              let onTargetReach = () => {
+                if (packageDOM.offsetLeft === x1E && packageDOM.offsetTop === y1E) {
+                  this.onPackageAnimationEnd(packageID)
+                } else {
+                  setTimeout(() => {
+                    //calling the second async wait to start the animation to the target element
+                    onTargetReach();
+                  }, 100);
+                }
+              }
+              onTargetReach()
+
+            } else {
+              setTimeout(() => {
+                packageMovementAnimationEnd();
+              }, 100);
+            }
+          }
+          //calling the second async wait to start the animation to the target element
+          packageMovementAnimationEnd().then(() => {
+            if (this.onPackageReachDestination)
+              this.onPackageReachDestination(packageID)
+          })
+
+        } else {
+          setTimeout(() => {
+            centerAnimationEnd();
+          }, 500);
+        }
+      }
+      //calling the first async wait to start the animation to the center of the target element
+      centerAnimationEnd()
+
+    },
+    arrangePackages(boxId) {
+
+      let packagesInTarget = document.getElementsByClassName("package")
+      //only find packages near the target box
+      let element = document.getElementById(boxId)
+
+      let packagesInTargetNearBox = []
+
+      let positionX = element.offsetLeft + (element.offsetWidth)
+      let positionY = element.offsetTop + (element.offsetHeight)
+
+      for (let i = 0; i < packagesInTarget.length; i++) {
+        let packageDOM = packagesInTarget[i]
+
+        //check for packages near the target box maximum of +500 from left and top
+        if (packageDOM.offsetLeft >= positionX - 500 && packageDOM.offsetLeft <= positionX + 500 && packageDOM.offsetTop >= positionY - 500 && packageDOM.offsetTop <= positionY + 500) {
+          packagesInTargetNearBox.push(packageDOM)
+        }
+
+      }
+
+      console.log(packagesInTargetNearBox)
+
+      //arrange the packages in the target box
+      //reset the packages to their original position and then add + 50 * index to the top and left
+
+      for (let i = 0; i < packagesInTargetNearBox.length; i++) {
+        let packageDOM = packagesInTargetNearBox[i]
+
+        packageDOM.style.left = positionX + 'px';
+        packageDOM.style.top = positionY + 'px';
+
+        let x1E = positionX + (25 * i);
+        let y1E = positionY + (25 * i);
+
+        packageDOM.style.left = x1E + 'px';
+        packageDOM.style.top = y1E + 'px';
+      }
+
+
     },
     drawLine(id1, id2) {
       let elementA = document.getElementById(id1);
