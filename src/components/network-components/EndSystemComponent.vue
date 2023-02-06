@@ -5,7 +5,7 @@
     </div>
     <!--set package ID here so it can be used later -->
     <div v-if="isPackageSet && displayPackage" style="position: absolute; right: -88px; " :style="animationDuration" :id="packageId" class="package">
-      <PackageComponent :data="data"></PackageComponent>
+      <PackageComponent :data="data" :background-color="packageBackgroundColor"></PackageComponent>
     </div>
   </div>
 </template>
@@ -45,6 +45,9 @@ export default {
       type: Boolean,
       default: true
     },
+    packageBackgroundColor: {
+      type: String,
+    }
   },
   methods: {
     disableAnimation() {

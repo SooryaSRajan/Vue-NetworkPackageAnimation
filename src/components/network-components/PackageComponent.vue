@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="packageBox">
+    <div id="packageBox" :style="{backgroundColor: backgroundColor}">
       <div v-for="(item, index) in data" :key="item.id">
         <div class="packageText">{{ item }}</div>
         <div v-if="addDash(index)" class="dash"></div>
@@ -20,6 +20,10 @@ export default {
   props: {
     data: {
       type: Array
+    },
+    backgroundColor: {
+      type: String,
+      default: "#ABFF8E"
     }
   },
 }
@@ -29,9 +33,7 @@ export default {
 #packageBox {
   width: 80px;
   min-height: 60px;
-
   overflow-y: scroll;
-  background-color: #ABFF8E;
   padding: 3px;
   border: 1px solid black;
   display: flex;

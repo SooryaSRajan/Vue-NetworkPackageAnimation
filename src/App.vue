@@ -3,18 +3,18 @@
 
     <NetworkInteractionComponent ref="childComponentRef" :on-package-animation-end="onAnimationEnd">
       <EndSystemComponent class="box" id="box1" package-id="package1" top="10%" left="10%"
-                          :data="['SYN SYN SYN SYN', 'ACK (ack data)', input]">
+                          :data="['SYN SYN SYN SYN', 'ACK (ack data)', input]" package-background-color="#8ef6ff">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
       <EndSystemComponent class="box" id="box2" package-id="package2" top="10%" left="45%"
-                          :data="['SYN SYN SYN SYN', 'ACK (ack data)']">
+                          :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input]" package-background-color="#ae8eff">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box3" top="10%" left="80%" package-id="package3" :data="['SYN SYN SYN SYN', 'ACK (ack data)']">
+      <EndSystemComponent class="box" id="box3" top="10%" left="80%" package-id="package3" :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input, input]">
         <h1>
           Hey there
         </h1>
