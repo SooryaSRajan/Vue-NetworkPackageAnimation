@@ -4,18 +4,24 @@
       <slot></slot>
     </div>
     <!--set package ID here so it can be used later -->
-    <div v-if="isPackageSet" style="position: absolute; right: -88px" :id="packageId">
+    <div v-if="isPackageSet && displayPackage" style="position: absolute; right: -88px; " :style="animationDuration" :id="packageId">
       <PackageComponent :data="data"></PackageComponent>
     </div>
   </div>
 </template>
 
 <script>
-import PackageComponent from "@/components/PackageComponent";
+
+import PackageComponent from "@/components/network-components/PackageComponent";
 
 export default {
   name: "EndSystemComponent",
   components: {PackageComponent},
+  data() {
+    return {
+      animationSeconds: 1
+    }
+  },
   props: {
     Class: {
       type: String,
@@ -34,6 +40,18 @@ export default {
     },
     data: {
       type: Array
+    },
+    displayPackage: {
+      type: Boolean,
+      default: true
+    },
+  },
+  methods: {
+    disableAnimation() {
+      this.animationSeconds = 0;
+    },
+    enableAnimation() {
+      this.animationSeconds = 1;
     }
   },
   computed: {
@@ -42,6 +60,11 @@ export default {
     },
     isPackageSet() {
       return this.packageId !== undefined;
+    },
+    animationDuration() {
+      return {
+        transition: "ease-in-out " + this.animationSeconds + "s"
+      }
     }
   },
 }
@@ -49,9 +72,6 @@ export default {
 
 <style scoped>
 .rootElementEndSystem {
-  transition: left 1s ease-out, top 1s ease-out;
   position: absolute;
-  background-color: #affce5;
 }
-
 </style>

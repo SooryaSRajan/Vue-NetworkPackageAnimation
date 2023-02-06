@@ -24,11 +24,6 @@
 
 export default {
   name: "NetworkInteractionComponent",
-  data() {
-    return {
-      elementMap: {}
-    }
-  },
   mounted() {
     let marginContainer = document.getElementById("margin-container").getBoundingClientRect();
 
@@ -53,15 +48,14 @@ export default {
       line.setAttribute("style", "stroke:rgb(0,0,0);stroke-width:1");
       svg.appendChild(line);
     },
-    animatePackageNew(target, packageID, currentElementID){
+    animatePackageNew(target, packageID, currentElementID) {
       let packageDOM = document.getElementById(packageID); //The package to animate
       let element = document.getElementById(target); //The target element
       let currentElement = document.getElementById(currentElementID); //the current element
       let overlay = document.getElementById('overlay'); //overlay, to remount the package to the overlay
 
-      console.log(packageDOM.offsetWidth, packageDOM.offsetHeight)
 
-      let packageWidth = packageDOM.offsetWidth / 2
+      let packageWidth = 40
       let packageHeight = packageDOM.offsetHeight / 2
 
       //detaching from current element and moving to overlay
@@ -74,8 +68,6 @@ export default {
 
       packageDOM.style.left = xT + 'px';
       packageDOM.style.top = yT + 'px';
-
-      console.log(packageDOM.style.width, packageDOM.style.height)
 
       //setting element to center of current element
       let x1T = currentElement.offsetLeft + (currentElement.offsetWidth / 2) - packageWidth
@@ -128,7 +120,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: left 1s ease-out, top 1s ease-out;
 }
 
 #root {

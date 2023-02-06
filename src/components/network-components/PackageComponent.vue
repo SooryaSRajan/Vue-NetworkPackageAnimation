@@ -29,9 +29,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  transition: left 1s ease-out, top 1s ease-out;
-}
 #packageBox {
   width: 80px;
   min-height: 60px;
@@ -45,7 +42,6 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: left 1s ease-out, top 1s ease-out;
 }
 
 .packageText {
@@ -59,5 +55,6 @@ export default {
   background-color: black;
   margin: 2px 0;
 }
+
 
 </style>

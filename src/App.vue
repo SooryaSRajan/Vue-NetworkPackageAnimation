@@ -42,9 +42,9 @@
 </template>
 
 <script>
-import NetworkInteractionComponent from "@/components/NetworkInteractionComponent";
-import EndSystemComponent from "@/components/EndSystemComponent";
-import PackageComponent from "@/components/PackageComponent";
+import NetworkInteractionComponent from "@/components/network-components/NetworkInteractionComponent";
+import EndSystemComponent from "@/components/network-components/EndSystemComponent";
+import PackageComponent from "@/components/network-components/PackageComponent";
 
 export default {
   name: 'App',
