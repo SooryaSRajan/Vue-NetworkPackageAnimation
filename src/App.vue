@@ -56,20 +56,20 @@ export default {
   },
   methods: {
     animate() {
-      this.$refs.childComponentRef.animatePackageNew("box5", "package1", "box1")
-      this.$refs.childComponentRef.animatePackageNew("box5", "package2", "box2")
-      this.$refs.childComponentRef.animatePackageNew("box5", "package3", "box3")
-      this.$refs.childComponentRef.animatePackageNew("box2", "package4", "box4")
-      this.$refs.childComponentRef.animatePackageNew("box2", "package5", "box5")
-      this.$refs.childComponentRef.animatePackageNew("box2", "package6", "box6")
+      this.$refs.childComponentRef.animatePackage("box5", "package1", "box1")
+      this.$refs.childComponentRef.animatePackage("box5", "package2", "box2")
+      this.$refs.childComponentRef.animatePackage("box5", "package3", "box3")
+      this.$refs.childComponentRef.animatePackage("box2", "package4", "box4")
+      this.$refs.childComponentRef.animatePackage("box2", "package5", "box5")
+      this.$refs.childComponentRef.animatePackage("box2", "package6", "box6")
     },
     animateBack() {
-      this.$refs.childComponentRef.animatePackageNew("box1", "package1", "box5")
-      this.$refs.childComponentRef.animatePackageNew("box2", "package2", "box5")
-      this.$refs.childComponentRef.animatePackageNew("box3", "package3", "box5")
-      this.$refs.childComponentRef.animatePackageNew("box4", "package4", "box2")
-      this.$refs.childComponentRef.animatePackageNew("box5", "package5", "box2")
-      this.$refs.childComponentRef.animatePackageNew("box6", "package6", "box2")
+      this.$refs.childComponentRef.animatePackage("box1", "package1", "box5", () => {})
+      this.$refs.childComponentRef.animatePackage("box2", "package2", "box5")
+      this.$refs.childComponentRef.animatePackage("box3", "package3", "box5")
+      this.$refs.childComponentRef.animatePackage("box4", "package4", "box2")
+      this.$refs.childComponentRef.animatePackage("box5", "package5", "box2")
+      this.$refs.childComponentRef.animatePackage("box6", "package6", "box2")
     },
     onAnimationEnd(id) {
       console.log("Animation ended for id: " + id)

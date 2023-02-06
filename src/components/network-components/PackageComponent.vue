@@ -1,5 +1,13 @@
 <template>
   <div>
+    <!--This is the actual package, accepts a list which is rendered in it, package content can be added to it -->
+    <!--Note:
+            1. The package is a div with a fixed width but variable height, the content is rendered inside it
+            2. Each EndSystemComponent has one package component, the package component is rendered as part of the EndSystemComponent
+            3. Due to this limitation, there can only be n packages in the network, where n is the number of EndSystemComponents
+            4. Wrapper functions in the NetworkInteractionComponent are used to modify the package content
+            5. Packets cannot be directly interacted with, they can only be changed through NetworkInteractionComponent
+        -->
     <div id="packageBox" :style="{backgroundColor: backgroundColor}">
       <div v-for="(item, index) in data" :key="item.id">
         <div class="packageText">{{ item }}</div>

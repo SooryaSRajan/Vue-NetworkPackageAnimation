@@ -5,8 +5,11 @@
       Use deep in parent CSS to restrict the scope of the CSS selector to the child component.
 
       Methods packaged with the module:
-      animatePackage(target element, package id of the package to animate, source element id)
-      drawLine(source element id, target element id)
+      animatePackage(target element, package id of the package to animate, source element id, callback for when the animation ends) -> animates a package with <packageID>, as assigned the end system component, from the source element to the target element
+      arrangePackages(target element id) -> Arranges all packages close to the target element upon each other so all packages are visible
+      drawLine(source element id, target element id) -> Draws a line from the source element to the target element
+
+      Use refs to access the methods of the NetworkInteractionComponent from the parent component
   -->
   <div id="margin-container">
     <div id="root">
@@ -36,9 +39,11 @@ export default {
   mounted() {
     let marginContainer = document.getElementById("margin-container").getBoundingClientRect();
 
+    //accounted for margin
     let width = (marginContainer.width - 50) + "px";
     let height = (marginContainer.height - 50) + "px";
 
+    //sets the container dimensions to static values, so it does not resize when the window is resized
     document.getElementById("root").style.width = width
     document.getElementById("root").style.height = height
     document.getElementById("lineCanvas").style.width = width
@@ -48,6 +53,7 @@ export default {
   },
   methods: {
     drawSVGLine(x1, y1, x2, y2) {
+      //draws an SVG line from (x1, y1) to (x2, y2), internal method
       let svg = document.getElementById('lineCanvas');
       let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
       line.setAttribute("x1", x1);
@@ -57,7 +63,8 @@ export default {
       line.setAttribute("style", "stroke:rgb(0,0,0);stroke-width:1");
       svg.appendChild(line);
     },
-    animatePackageNew(target, packageID, currentElementID) {
+    animatePackage(target, packageID, currentElementID, currentAnimationCallback) {
+      //animates package with <packageID> from the current element to the target element
       let packageDOM = document.getElementById(packageID); //The package to animate
       let element = document.getElementById(target); //The target element
       let currentElement = document.getElementById(currentElementID); //the current element
@@ -117,6 +124,9 @@ export default {
               let onTargetReach = () => {
                 if (packageDOM.offsetLeft === x1E && packageDOM.offsetTop === y1E) {
                   this.onPackageAnimationEnd(packageID)
+                  if(currentAnimationCallback){
+                    currentAnimationCallback()
+                  }
                 } else {
                   setTimeout(() => {
                     //calling the second async wait to start the animation to the target element
@@ -149,7 +159,7 @@ export default {
 
     },
     arrangePackages(boxId) {
-
+      //arranges the packages in the target box upon each other to make every package visible
       let packagesInTarget = document.getElementsByClassName("package")
       //only find packages near the target box
       let element = document.getElementById(boxId)
@@ -188,6 +198,7 @@ export default {
 
     },
     drawLine(id1, id2) {
+      //wrapper method for drawSVG line, calculates the center of the elements and passes it to the drawSVGLine method
       let elementA = document.getElementById(id1);
       let elementB = document.getElementById(id2);
 

@@ -1,10 +1,12 @@
 <template>
+  <!--This element has a slot in which the vector or any child element of choice can be inserted, allows for customisability while designing experiments-->
   <div :class="Class" :id="Id" class="rootElementEndSystem" :style="{top: top, left: left}">
     <div id="endSystemVector">
       <slot></slot>
     </div>
     <!--set package ID here so it can be used later -->
-    <div v-if="isPackageSet && displayPackage" style="position: absolute; right: -88px; " :style="animationDuration" :id="packageId" class="package">
+    <div v-if="isPackageSet && displayPackage" style="position: absolute; right: -88px; " :style="animationDuration"
+         :id="packageId" class="package">
       <PackageComponent :data="data" :background-color="packageBackgroundColor"></PackageComponent>
     </div>
   </div>
