@@ -164,6 +164,8 @@ export default {
     },
     arrangePackages(boxId) {
 
+      let overlay = document.getElementById('overlay'); //overlay, to remount the package to the overlay
+
       if (!boxId) {
         return
       }
@@ -191,12 +193,14 @@ export default {
 
       for (let i = 0; i < packagesInTargetNearBox.length; i++) {
         let packageDOM = packagesInTargetNearBox[i]
+        packageDOM.remove()
+        overlay.appendChild(packageDOM);
 
         packageDOM.style.left = positionX + 'px';
         packageDOM.style.top = positionY + 'px';
 
-        let x1E = positionX + (25 * i);
-        let y1E = positionY + (25 * i);
+        let x1E = positionX + (10 * i);
+        let y1E = positionY + (10 * i);
 
         packageDOM.style.left = x1E + 'px';
         packageDOM.style.top = y1E + 'px';
