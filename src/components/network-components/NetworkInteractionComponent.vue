@@ -70,6 +70,10 @@ export default {
       let currentElement = document.getElementById(currentElementID); //the current element
       let overlay = document.getElementById('overlay'); //overlay, to remount the package to the overlay
 
+      if (!packageDOM || !element || !currentElement || !overlay) {
+        return
+      }
+
       let packageWidth = 40
       let packageHeight = packageDOM.offsetHeight / 2
 
@@ -124,7 +128,7 @@ export default {
               let onTargetReach = () => {
                 if (packageDOM.offsetLeft === x1E && packageDOM.offsetTop === y1E) {
                   this.onPackageAnimationEnd(packageID)
-                  if(currentAnimationCallback){
+                  if (currentAnimationCallback) {
                     currentAnimationCallback()
                   }
                 } else {
@@ -159,6 +163,10 @@ export default {
 
     },
     arrangePackages(boxId) {
+
+      if (!boxId) {
+        return
+      }
       //arranges the packages in the target box upon each other to make every package visible
       let packagesInTarget = document.getElementsByClassName("package")
       //only find packages near the target box
@@ -176,7 +184,6 @@ export default {
         if (packageDOM.offsetLeft >= positionX - 500 && packageDOM.offsetLeft <= positionX + 500 && packageDOM.offsetTop >= positionY - 500 && packageDOM.offsetTop <= positionY + 500) {
           packagesInTargetNearBox.push(packageDOM)
         }
-
       }
 
       //arrange the packages in the target box
@@ -201,6 +208,10 @@ export default {
       //wrapper method for drawSVG line, calculates the center of the elements and passes it to the drawSVGLine method
       let elementA = document.getElementById(id1);
       let elementB = document.getElementById(id2);
+
+      if (!elementA || !elementB) {
+        return
+      }
 
       let x1 = elementA.offsetLeft + (elementA.offsetWidth / 2);
       let y1 = elementA.offsetTop + (elementA.offsetHeight / 2);

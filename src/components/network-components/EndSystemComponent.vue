@@ -4,10 +4,13 @@
     <div id="endSystemVector">
       <slot></slot>
     </div>
-    <!--set package ID here so it can be used later -->
-    <div v-if="isPackageSet && displayPackage" style="position: absolute; right: -88px; " :style="animationDuration"
-         :id="packageId" class="package">
-      <PackageComponent :data="data" :background-color="packageBackgroundColor"></PackageComponent>
+    <div v-for="(packageData, index) in packageInfo" :key="index">
+      <div v-if="(packageData.displayPackage ?? true) && packageData.packageId" style="position: absolute; right: -88px;"
+           :style="{transition: 'ease-in-out ' + (packageData.animationSeconds ?? 1) + 's'}"
+           :id="packageData.packageId" class="package">
+        <PackageComponent :data="packageData.data"
+                          :background-color="packageData.packageBackgroundColor"></PackageComponent>
+      </div>
     </div>
   </div>
 </template>
@@ -19,19 +22,11 @@ import PackageComponent from "@/components/network-components/PackageComponent";
 export default {
   name: "EndSystemComponent",
   components: {PackageComponent},
-  data() {
-    return {
-      animationSeconds: 1
-    }
-  },
   props: {
     Class: {
       type: String,
     },
     Id: {
-      type: String,
-    },
-    packageId: {
       type: String,
     },
     top: {
@@ -40,37 +35,14 @@ export default {
     left: {
       type: String,
     },
-    data: {
-      type: Array
+    packageInfo: {
+      type: [Object],
     },
-    displayPackage: {
-      type: Boolean,
-      default: true
-    },
-    packageBackgroundColor: {
-      type: String,
-    }
-  },
-  methods: {
-    disableAnimation() {
-      this.animationSeconds = 0;
-    },
-    enableAnimation() {
-      this.animationSeconds = 1;
-    }
   },
   computed: {
     packagePosition() {
       return "-50px"
     },
-    isPackageSet() {
-      return this.packageId !== undefined;
-    },
-    animationDuration() {
-      return {
-        transition: "ease-in-out " + this.animationSeconds + "s"
-      }
-    }
   },
 }
 </script>

@@ -2,34 +2,72 @@
   <main id="main">
 
     <NetworkInteractionComponent ref="childComponentRef" :on-package-animation-end="onAnimationEnd">
-      <EndSystemComponent class="box" id="box1" package-id="package1" top="10%" left="10%"
-                          :data="['SYN SYN SYN SYN', 'ACK (ack data)', input]" package-background-color="#8ef6ff">
+      <EndSystemComponent class="box" id="box1" top="10%" left="10%" :package-info="[
+        {
+          data: ['Hello', 'World', 'LOL'],
+          displayPackage: display,
+          packageBackgroundColor: '#2cb203',
+          animationSeconds: 1
+        },
+        {
+          packageId: 'package2',
+          data: ['Hello', 'Not world', input],
+          displayPackage: display,
+          packageBackgroundColor: '#ff8e8e',
+          animationSeconds: 1
+        },
+        {
+          packageId: 'package3',
+          data: ['Hello', 'Not world', input],
+          displayPackage: display,
+          packageBackgroundColor: '#8ef2ff',
+        },
+        {
+          packageId: 'package4',
+          data: ['Hello', 'Not world', input],
+          displayPackage: display,
+          packageBackgroundColor: '#a7c96c',
+        },
+        {
+          packageId: 'package5',
+          data: ['Hello', 'Not world', input],
+          displayPackage: display,
+          packageBackgroundColor: '#477537',
+          animationSeconds: 1
+        },
+        {
+          packageId: 'package6',
+          data: ['Hello', 'Not world', input],
+          displayPackage: display,
+          packageBackgroundColor: '#c463ff',
+          animationSeconds: 1
+        },
+      ]">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box2" package-id="package2" top="10%" left="45%"
-                          :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input]" package-background-color="#ae8eff">
+      <EndSystemComponent class="box" id="box2" top="10%" left="45%">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box3" top="10%" left="80%" package-id="package3" :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input, input]">
+      <EndSystemComponent class="box" id="box3" top="10%" left="80%">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box4" top="80%" left="10%" package-id="package4" :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input, input]">
+      <EndSystemComponent class="box" id="box4" top="80%" left="10%">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box5" top="80%" left="45%" package-id="package5" :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input, input]">
+      <EndSystemComponent class="box" id="box5" top="80%" left="45%">
         <h1>
           Hey there
         </h1>
       </EndSystemComponent>
-      <EndSystemComponent class="box" id="box6" top="80%" left="80%" package-id="package6" :data="['SYN SYN SYN SYN', 'ACK (ack data)', input, input, input]">
+      <EndSystemComponent class="box" id="box6" top="80%" left="80%">
         <h1>
           Hey there
         </h1>
@@ -56,15 +94,21 @@ export default {
   },
   methods: {
     animate() {
-      this.$refs.childComponentRef.animatePackage("box5", "package1", "box1")
-      this.$refs.childComponentRef.animatePackage("box5", "package2", "box2")
-      this.$refs.childComponentRef.animatePackage("box5", "package3", "box3")
-      this.$refs.childComponentRef.animatePackage("box2", "package4", "box4")
-      this.$refs.childComponentRef.animatePackage("box2", "package5", "box5")
-      this.$refs.childComponentRef.animatePackage("box2", "package6", "box6")
+      this.display = true;
+      setTimeout(() => {
+        this.$refs.childComponentRef.animatePackage("box5", "package1", "box1")
+        this.$refs.childComponentRef.animatePackage("box5", "package2", "box2")
+        this.$refs.childComponentRef.animatePackage("box5", "package3", "box3")
+        this.$refs.childComponentRef.animatePackage("box2", "package6", "box6")
+        this.$refs.childComponentRef.animatePackage("box2", "package4", "box4")
+        this.$refs.childComponentRef.animatePackage("box2", "package5", "box5")
+      }, 1000)
+
     },
     animateBack() {
-      this.$refs.childComponentRef.animatePackage("box1", "package1", "box5", () => {})
+      this.display = false;
+      this.$refs.childComponentRef.animatePackage("box1", "package1", "box5", () => {
+      })
       this.$refs.childComponentRef.animatePackage("box2", "package2", "box5")
       this.$refs.childComponentRef.animatePackage("box3", "package3", "box5")
       this.$refs.childComponentRef.animatePackage("box4", "package4", "box2")
@@ -90,6 +134,7 @@ export default {
   data() {
     return {
       input: "test",
+      display: false,
       packageOneReached: false,
       packageTwoReached: false,
     }
