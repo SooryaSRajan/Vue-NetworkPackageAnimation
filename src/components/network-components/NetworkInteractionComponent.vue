@@ -162,37 +162,26 @@ export default {
       centerAnimationEnd()
 
     },
-    arrangePackages(boxId) {
-
-      let overlay = document.getElementById('overlay'); //overlay, to remount the package to the overlay
+    arrangePackages(boxId, packageID) {
 
       if (!boxId) {
         return
       }
       //arranges the packages in the target box upon each other to make every package visible
-      let packagesInTarget = document.getElementsByClassName("package")
-      //only find packages near the target box
       let element = document.getElementById(boxId)
-
-      let packagesInTargetNearBox = []
+      let overlay = document.getElementById('overlay'); //overlay, to remount the package to the overlay
 
       let positionX = element.offsetLeft + (element.offsetWidth)
       let positionY = element.offsetTop + (element.offsetHeight)
 
-      for (let i = 0; i < packagesInTarget.length; i++) {
-        let packageDOM = packagesInTarget[i]
-
-        //check for packages near the target box maximum of +500 from left and top
-        if (packageDOM.offsetLeft >= positionX - 200 && packageDOM.offsetLeft <= positionX + 200 && packageDOM.offsetTop >= positionY - 200 && packageDOM.offsetTop <= positionY + 200) {
-          packagesInTargetNearBox.push(packageDOM)
-        }
-      }
 
       //arrange the packages in the target box
       //reset the packages to their original position and then add + 50 * index to the top and left
 
-      for (let i = 0; i < packagesInTargetNearBox.length; i++) {
-        let packageDOM = packagesInTargetNearBox[i]
+      console.log(packageID)
+      for (let i = 0; i < packageID.length; i++) {
+        console.log(packageID[i], "error")
+        let packageDOM = document.getElementById(packageID[i])
         packageDOM.remove()
         overlay.appendChild(packageDOM);
 
@@ -205,7 +194,6 @@ export default {
         packageDOM.style.left = x1E + 'px';
         packageDOM.style.top = y1E + 'px';
       }
-
 
     },
     drawLine(id1, id2) {
