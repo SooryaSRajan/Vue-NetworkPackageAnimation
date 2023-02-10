@@ -183,7 +183,7 @@ export default {
         let packageDOM = packagesInTarget[i]
 
         //check for packages near the target box maximum of +500 from left and top
-        if (packageDOM.offsetLeft >= positionX - 500 && packageDOM.offsetLeft <= positionX + 500 && packageDOM.offsetTop >= positionY - 500 && packageDOM.offsetTop <= positionY + 500) {
+        if (packageDOM.offsetLeft >= positionX - 200 && packageDOM.offsetLeft <= positionX + 200 && packageDOM.offsetTop >= positionY - 200 && packageDOM.offsetTop <= positionY + 200) {
           packagesInTargetNearBox.push(packageDOM)
         }
       }
