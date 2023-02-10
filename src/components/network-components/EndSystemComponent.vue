@@ -51,4 +51,8 @@ export default {
 .rootElementEndSystem {
   position: absolute;
 }
+
+.package:hover {
+  z-index: 1;
+}
 </style>

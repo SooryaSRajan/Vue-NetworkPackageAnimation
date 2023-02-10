@@ -199,8 +199,8 @@ export default {
         packageDOM.style.left = positionX + 'px';
         packageDOM.style.top = positionY + 'px';
 
-        let x1E = positionX + (10 * i);
-        let y1E = positionY + (10 * i);
+        let x1E = positionX + (15 * i);
+        let y1E = positionY + (15 * i);
 
         packageDOM.style.left = x1E + 'px';
         packageDOM.style.top = y1E + 'px';
